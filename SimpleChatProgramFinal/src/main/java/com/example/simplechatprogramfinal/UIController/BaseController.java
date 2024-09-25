@@ -24,7 +24,7 @@ public class BaseController {
     @Autowired
     private UserRepository userRepository;
 
-    private ConcurrentHashMap<String, Thread> activeClients = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Thread> activeClients = new ConcurrentHashMap<>();
 
     @GetMapping("/home")
     public String homepage(Model model, Authentication authentication) {
@@ -35,11 +35,9 @@ public class BaseController {
                 logger.info("User {} is accessing the homepage. Starting ChatClient..." + email);
 
                 ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
-                String serverHost = readServerConfigFile.getServerHost();
-                int serverPort = readServerConfigFile.getServerPort();
-
+                ChatClient chatClient = new ChatClient(readServerConfigFile);
                 Thread clientThread = new Thread(() -> {
-                    ChatClient.startChatClient(serverHost, serverPort);
+                    chatClient.startChatClient();
                     logger.info("ChatClient for user {} started successfully." + email);
                 });
 

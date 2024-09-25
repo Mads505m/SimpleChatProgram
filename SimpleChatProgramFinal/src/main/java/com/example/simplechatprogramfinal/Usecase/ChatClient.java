@@ -13,13 +13,18 @@ public class ChatClient {
 
     private static final Logger logger = Logger.getLogger(ChatClient.class.getName());
 
+    private final ReadServerConfigFile readServerConfigFile;
+    public ChatClient(ReadServerConfigFile readServerConfigFile) {
+        this.readServerConfigFile = readServerConfigFile;
+    }
+
     /**
      * Starts the chat client by connecting to the specified server and port.
-     *
-     * @param serverHost the host address of the server
-     * @param serverPort the port number on which the server is listening
      */
-    public static void startChatClient(String serverHost, int serverPort) {
+    public void startChatClient() {
+        String serverHost = readServerConfigFile.getServerHost();
+        int serverPort = readServerConfigFile.getServerPort();
+
         try {
             ClientCommunicationHandler communicationHandler = new ClientCommunicationHandler(serverHost, serverPort);
             logger.info("Connected to the server at " + serverHost + " and Port: " + serverPort);
@@ -38,9 +43,8 @@ public class ChatClient {
      */
     public static void main(String[] args) {
         ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
-        String serverHost = readServerConfigFile.getServerHost();
-        int serverPort = readServerConfigFile.getServerPort();
+        ChatClient chatClient = new ChatClient(readServerConfigFile);
 
-        startChatClient(serverHost, serverPort);
+        chatClient.startChatClient();
     }
 }

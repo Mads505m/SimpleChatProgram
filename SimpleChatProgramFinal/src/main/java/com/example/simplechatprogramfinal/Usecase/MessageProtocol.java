@@ -20,7 +20,6 @@ public class MessageProtocol {
         return String.format(clientId + SEPARATOR + timestamp + SEPARATOR + "Unicast message: " + message);
     }
 
-
     /**
      * Creates a broadcast message.
      */

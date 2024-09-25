@@ -24,8 +24,8 @@ public class SimpleChatProgramFinalApplication {
     @Bean
     CommandLineRunner init() {
         return args -> {
-
-            ChatServer chatServer = new ChatServer();
+            ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
+            ChatServer chatServer = new ChatServer(readServerConfigFile);
             new Thread(chatServer::ServerStart).start();
 
             String email = "mads"; // replace with the email you want to test

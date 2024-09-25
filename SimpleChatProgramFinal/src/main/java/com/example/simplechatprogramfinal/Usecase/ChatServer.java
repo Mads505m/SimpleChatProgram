@@ -15,10 +15,13 @@ public class ChatServer {
     private int clientCounter = 1;
     private final ClientManager clientManager;
 
+    private final ReadServerConfigFile readServerConfigFile;
+
     /**
      * Initializes the ChatServer with a thread pool and client manager.
      */
-    public ChatServer() {
+    public ChatServer(ReadServerConfigFile readServerConfigFile) {
+        this.readServerConfigFile = readServerConfigFile;
         threadpool = Executors.newCachedThreadPool();
         clientManager = new ClientManager();
     }
@@ -28,7 +31,7 @@ public class ChatServer {
      * listens for incoming client connections.
      */
     public void ServerStart() {
-        ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
+
         int serverPort = readServerConfigFile.getServerPort();
         String serverHost = readServerConfigFile.getServerHost();
 
@@ -52,7 +55,8 @@ public class ChatServer {
      * Start ChatServer.
      */
     public static void main(String[] args) {
-        ChatServer server = new ChatServer();
+        ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
+        ChatServer server = new ChatServer(readServerConfigFile);
         server.ServerStart();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.simplechatprogramfinal.Usecase;
 
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 
 public class ClientManager implements ClientManagerInterface {
     private static final Logger logger = Logger.getLogger(ClientManager.class.getName());
-    private Map<String, PrintWriter> clients;
+    private final Map<String, PrintWriter> clients;
 
     /**
      * Initializes the ClientManager with a ConcurrentHashMap.
@@ -27,7 +28,7 @@ public class ClientManager implements ClientManagerInterface {
      */
     @Override
     public Map<String, PrintWriter> getClients() {
-        return clients;
+        return Collections.unmodifiableMap(clients);
     }
 
 
