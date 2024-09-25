@@ -3,15 +3,12 @@ package com.example.simplechatprogramfinal.Usecase;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.util.logging.Logger;
 
 /**
  * ChatClient is responsible for establishing a connection to the chat server
  * and initiating communication.
  */
 public class ChatClient {
-
-    private static final Logger logger = Logger.getLogger(ChatClient.class.getName());
 
     private final ReadServerConfigFile readServerConfigFile;
     public ChatClient(ReadServerConfigFile readServerConfigFile) {
@@ -27,14 +24,14 @@ public class ChatClient {
 
         try {
             ClientCommunicationHandler communicationHandler = new ClientCommunicationHandler(serverHost, serverPort);
-            logger.info("Connected to the server at " + serverHost + " and Port: " + serverPort);
+            GlobalLogger.logInfo("Connected to the server at " + serverHost + " and Port: " + serverPort);
             communicationHandler.sendMessageToServer();
         } catch (UnknownHostException e) {
-            logger.severe("Unknown host: " + serverHost);
+            GlobalLogger.logError("Unknown host: " + serverHost, e);
         } catch (ConnectException e) {
-            logger.severe("Connection to the server failed: " + e.getMessage());
+            GlobalLogger.logError("Connection to the server failed", e);
         } catch (IOException e) {
-            logger.severe("I/O error occurred when connecting to the server: " + e.getMessage());
+            GlobalLogger.logError("I/O error occurred when connecting to the server", e);
         }
     }
 
