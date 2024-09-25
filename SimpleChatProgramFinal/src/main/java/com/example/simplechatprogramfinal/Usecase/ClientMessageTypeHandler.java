@@ -2,22 +2,18 @@ package com.example.simplechatprogramfinal.Usecase;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.logging.Logger;
-
 
 /**
  * Handles different types of client messages including unicast and broadcast messages.
  */
 public class ClientMessageTypeHandler implements ClientMessageTypeHandlerInterface{
-    private static final Logger logger = Logger.getLogger(ChatServer.class.getName());
-
 
     /**
      * Sends an unicast message to a specific client.
      */
     @Override
     public void messageTypeUnicast(String senderID, String message, String targetClientID, Map<String, PrintWriter> clients) {
-        logger.info("UnicastMessage called with senderID: " + senderID + ", message: " + message + ", targetClientID: " + targetClientID);
+        GlobalLogger.logInfo("UnicastMessage called with senderID: " + senderID + ", message: " + message + ", targetClientID: " + targetClientID);
 
         PrintWriter senderWriter = clients.get(senderID);
         PrintWriter targetClientWriter = clients.get(targetClientID);
@@ -25,18 +21,18 @@ public class ClientMessageTypeHandler implements ClientMessageTypeHandlerInterfa
         if (senderID.equals(targetClientID)) {
             senderWriter.println("Cannot send message to yourself");
             senderWriter.flush();
-            logger.info("Sender " + senderID + " attempted to send a message to themselves.");
+            GlobalLogger.logInfo("Sender " + senderID + " attempted to send a message to themselves.");
             return;
         }
 
         if (targetClientWriter != null) {
             targetClientWriter.println(message);
             targetClientWriter.flush();
-            logger.info("Unicast message sent to " + targetClientID);
+            GlobalLogger.logInfo("Unicast message sent to " + targetClientID);
         } else {
             senderWriter.println("Client " + targetClientID + " not found");
             senderWriter.flush();
-            logger.info("Client " + targetClientID + " not found");
+            GlobalLogger.logInfo("Client " + targetClientID + " not found");
         }
 
         if (targetClientWriter !=null) {

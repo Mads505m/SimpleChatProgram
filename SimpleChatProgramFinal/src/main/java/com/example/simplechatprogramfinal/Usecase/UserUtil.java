@@ -9,8 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Component
 public class UserUtil {
@@ -21,8 +19,6 @@ public class UserUtil {
     public UserUtil(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    private static final Logger logger = LoggerFactory.getLogger(UserUtil.class);
 
     public Users getCurrentUser() {
         try{
@@ -36,7 +32,7 @@ public class UserUtil {
             }
             return null;
         }catch (DataAccessException e) {
-            logger.error("DataAccessException occurred while trying to find all users: {}", e.getMessage(), e);
+            GlobalLogger.logError("DataAccessException occurred while trying to find all users: {}", e);
         }
         return null;
     }
@@ -46,7 +42,7 @@ public class UserUtil {
             Users user = getCurrentUser();
             return (user != null) ? user.getEmail() : "";
         }catch (DataAccessException e) {
-            logger.error("DataAccessException occurred while trying to find all users: {}", e.getMessage(), e);
+            GlobalLogger.logError("DataAccessException occurred while trying to find all users: {}", e);
         }
 
         return "";
@@ -57,7 +53,7 @@ public class UserUtil {
             Users user = getCurrentUser();
             return (user != null) ? user.getUsername() : "";
         } catch (DataAccessException e) {
-            logger.error("DataAccessException occurred while trying to find all users: {}", e.getMessage(), e);
+            GlobalLogger.logError("DataAccessException occurred while trying to find all users: {}", e);
         }
         return "";
     }

@@ -11,7 +11,7 @@ public interface ClientCommunicationHandlerInterface {
     /**
      *
      * Sends the message content to the server
-     * 
+     *
      * @param messageContent the content of the message to send
      */
     void sendMessageContent(String messageContent);

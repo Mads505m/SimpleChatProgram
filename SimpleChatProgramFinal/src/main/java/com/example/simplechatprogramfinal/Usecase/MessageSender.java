@@ -2,12 +2,11 @@ package com.example.simplechatprogramfinal.Usecase;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.logging.Logger;
+
 /**
  * Handles the communication between the server and a single client.
  */
 public class MessageSender implements Runnable, MessageSenderInterface {
-    private static final Logger logger = Logger.getLogger(MessageSender.class.getName());
     private final Socket clientSocket;
     private final String clientId;
     private final ClientManager clientManager;
@@ -53,13 +52,13 @@ public class MessageSender implements Runnable, MessageSenderInterface {
                 }
             }
         } catch (IOException e) {
-            logger.severe("Error handling client: " + e.getMessage());
+            GlobalLogger.logError("Error handling client", e);
         } finally {
             clientManager.unregisterClient(clientId);
             try {
                 clientSocket.close();
             } catch (IOException e) {
-                logger.severe("Failed to close client socket: " + e.getMessage());
+                GlobalLogger.logError("Failed to close client socket", e);
             }
         }
     }

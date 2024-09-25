@@ -4,13 +4,11 @@ import java.io.*;
 import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
 
 /**
  * ChatServer is responsible for managing client connections and message dispatching.
  */
 public class ChatServer {
-    private static final Logger logger = Logger.getLogger(ChatServer.class.getName());
     private final ExecutorService threadpool;
     private int clientCounter = 1;
     private final ClientManager clientManager;
@@ -36,18 +34,18 @@ public class ChatServer {
         String serverHost = readServerConfigFile.getServerHost();
 
         try (ServerSocket serverSocket = new ServerSocket(serverPort, 50, InetAddress.getByName(serverHost))) {
-            logger.info("ChatServer has been started on " + serverHost + ":" + serverPort);
+            GlobalLogger.logInfo("ChatServer has been started on " + serverHost + ":" + serverPort);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 String clientId = "client" + clientCounter++;
-                logger.info("Client connected with ID: " + clientId);
+                GlobalLogger.logInfo("Client connected with ID: " + clientId);
                 threadpool.execute(new MessageSender(clientSocket, clientManager, clientId));
             }
         } catch (UnknownHostException u) {
-            logger.severe("Server not found: " + u.getMessage());
+            GlobalLogger.logError("Server not found", u);
         } catch (IOException e) {
-            logger.severe("Server failed to start: " + e.getMessage());
+            GlobalLogger.logError("Server failed to start", e);
         }
     }
 
