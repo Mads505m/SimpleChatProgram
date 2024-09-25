@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-public class ClientCommunicationHandler {
+public class ClientCommunicationHandler implements ClientCommunicationHandlerInterface {
 
     private static final Logger logger = Logger.getLogger(ClientCommunicationHandler.class.getName());
     private Socket socket;
@@ -50,6 +50,7 @@ public class ClientCommunicationHandler {
      * Sends messages to the server
      * reads the input
      */
+    @Override
     public void sendMessageToServer() {
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
@@ -65,7 +66,8 @@ public class ClientCommunicationHandler {
      * Sends the message content to the server.
      * @param messageContent the content of the message to send
      */
-    private void sendMessageContent(String messageContent) {
+    @Override
+    public void sendMessageContent(String messageContent) {
         printWriter.println(messageContent);
         printWriter.flush();
     }

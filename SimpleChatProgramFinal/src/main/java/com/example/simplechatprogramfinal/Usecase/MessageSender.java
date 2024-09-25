@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 /**
  * Handles the communication between the server and a single client.
  */
-public class MessageSender implements Runnable {
+public class MessageSender implements Runnable, MessageSenderInterface {
     private static final Logger logger = Logger.getLogger(MessageSender.class.getName());
     private final Socket clientSocket;
     private final String clientId;
@@ -69,7 +69,8 @@ public class MessageSender implements Runnable {
      *
      * @throws IOException
      */
-    private void handleTextMessage(BufferedReader in, PrintWriter printWriter) throws IOException {
+    @Override
+    public void handleTextMessage(BufferedReader in, PrintWriter printWriter) throws IOException {
         printWriter.println("Press 1 for Unicast message or 2 for Broadcast message:");
         String textMessageType = in.readLine().trim();
 
@@ -95,7 +96,8 @@ public class MessageSender implements Runnable {
      *
      * @throws IOException
      */
-    private void handleFileTransfer(PrintWriter printWriter) throws IOException {
+    @Override
+    public void handleFileTransfer(PrintWriter printWriter) throws IOException {
         printWriter.println("File transfer feature is not implemented yet.");
     }
 
@@ -104,7 +106,8 @@ public class MessageSender implements Runnable {
      *
      * @throws IOException
      */
-    private void handleEmojiMessage(PrintWriter printWriter) throws IOException {
+    @Override
+    public void handleEmojiMessage(PrintWriter printWriter) throws IOException {
         printWriter.println("Emoji support feature is not implemented yet");
     }
 }

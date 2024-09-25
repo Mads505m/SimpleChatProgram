@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * ClientManager manages the connected clients and their PrintWriters.
  */
 
-public class ClientManager {
+public class ClientManager implements ClientManagerInterface {
     private static final Logger logger = Logger.getLogger(ClientManager.class.getName());
     private Map<String, PrintWriter> clients;
 
@@ -25,6 +25,7 @@ public class ClientManager {
     /**
      * Gets the map of registered clients.
      */
+    @Override
     public Map<String, PrintWriter> getClients() {
         return clients;
     }
@@ -33,6 +34,7 @@ public class ClientManager {
     /**
      * Registers a client by adding their ID and PrintWriter to the map.
      */
+    @Override
     public void registerClient(String clientId, PrintWriter printWriter) {
         clients.put(clientId, printWriter);
         logger.info(clientId + " has been registered");
@@ -42,6 +44,7 @@ public class ClientManager {
     /**
      * Unregisters a client by removing their ID and PrintWriter from the map.
      */
+    @Override
     public void unregisterClient(String clientId) {
         clients.remove(clientId);
         logger.info(clientId + " has been unregistered");

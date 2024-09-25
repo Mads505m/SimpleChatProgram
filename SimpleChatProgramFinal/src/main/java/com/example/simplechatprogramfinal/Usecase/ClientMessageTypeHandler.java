@@ -8,13 +8,14 @@ import java.util.logging.Logger;
 /**
  * Handles different types of client messages including unicast and broadcast messages.
  */
-public class ClientMessageTypeHandler {
+public class ClientMessageTypeHandler implements ClientMessageTypeHandlerInterface{
     private static final Logger logger = Logger.getLogger(ChatServer.class.getName());
 
 
     /**
      * Sends an unicast message to a specific client.
      */
+    @Override
     public void messageTypeUnicast(String senderID, String message, String targetClientID, Map<String, PrintWriter> clients) {
         logger.info("UnicastMessage called with senderID: " + senderID + ", message: " + message + ", targetClientID: " + targetClientID);
 
@@ -48,6 +49,7 @@ public class ClientMessageTypeHandler {
      * Sends message to all connected clients
      */
 
+    @Override
     public void messageTypeBroadcastMessage (String senderID, String message, Map<String, PrintWriter> clients){
         clients.forEach((clientId, clientWriter) -> {
 
@@ -61,10 +63,12 @@ public class ClientMessageTypeHandler {
         });
     }
 
+    @Override
     public void fileTransfer(){
 
     }
 
+    @Override
     public void emojiSupportText(){
 
     }
