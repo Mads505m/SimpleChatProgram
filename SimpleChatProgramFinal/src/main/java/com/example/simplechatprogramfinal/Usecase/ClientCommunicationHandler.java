@@ -69,4 +69,19 @@ public class ClientCommunicationHandler implements ClientCommunicationHandlerInt
         printWriter.println(messageContent);
         printWriter.flush();
     }
+
+    public void close(){
+        try{
+            if(printWriter != null){
+                printWriter.close();
+            } if(in != null){
+                in.close();
+            } if (socket != null && !socket.isClosed()){
+                socket.close();
+            }
+            GlobalLogger.logInfo("Connection closed for client" + clientId);
+        } catch (IOException e) {
+            GlobalLogger.logError("Failed to close connection", e);
+        }
+    }
 }
