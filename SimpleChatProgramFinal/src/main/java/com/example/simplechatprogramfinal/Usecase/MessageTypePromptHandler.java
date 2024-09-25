@@ -15,6 +15,29 @@ public class MessageTypePromptHandler implements MessageTypePromptHandlerInterfa
         this.clientId = clientId;
     }
 
+
+    public void startChatPrompt(BufferedReader in, PrintWriter printWriter) throws IOException {
+        while (true) {
+            printWriter.println("Choose message type: 1 for Text, 2 for File Transfer, 3 for Emoji:");
+            String messageTypeChoice = in.readLine().trim();
+
+            switch (messageTypeChoice) {
+                case "1":
+                    handleTextMessage(in, printWriter);
+                    break;
+                case "2":
+                    handleFileTransfer(printWriter);
+                    break;
+                case "3":
+                    handleEmojiMessage(printWriter);
+                    break;
+                default:
+                    printWriter.println("Invalid option. Please enter 1 for Text, 2 for File Transfer, or 3 for Emoji.");
+                    break;
+            }
+        }
+    }
+
     /**
      * Method for text type, either text one client or text all clients
      *

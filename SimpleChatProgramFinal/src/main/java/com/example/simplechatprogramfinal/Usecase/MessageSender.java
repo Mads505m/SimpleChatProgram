@@ -20,12 +20,11 @@ public class MessageSender implements Runnable, MessageSenderInterface {
         this.clientMessageTypeHandler = new ClientMessageTypeHandler();
         this.messageTypePromptHandler = new MessageTypePromptHandler(clientMessageTypeHandler, clientManager, clientId);
 
-
         clientManager.registerClient(clientId, new PrintWriter(socket.getOutputStream(), true));
     }
 
     /**
-     * Handles client communication by prompting the user to select a message type
+     * Uses the startChatPrompt method from MessageTypePromptHandler to handle client communication.
      */
     @Override
     public void run() {
@@ -33,26 +32,8 @@ public class MessageSender implements Runnable, MessageSenderInterface {
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
             printWriter.println("Client ID: " + clientId);
+            messageTypePromptHandler.startChatPrompt(in, printWriter);
 
-            while (true) {
-                printWriter.println("Choose message type: 1 for Text, 2 for File Transfer, 3 for Emoji:");
-                String messageTypeChoice = in.readLine().trim();
-
-                switch (messageTypeChoice) {
-                    case "1":
-                        messageTypePromptHandler.handleTextMessage(in, printWriter);
-                        break;
-                    case "2":
-                        messageTypePromptHandler.handleFileTransfer(printWriter);
-                        break;
-                    case "3":
-                        messageTypePromptHandler.handleEmojiMessage(printWriter);
-                        break;
-                    default:
-                        printWriter.println("Invalid option. Please enter 1 for Text, 2 for File Transfer, or 3 for Emoji.");
-                        break;
-                }
-            }
         } catch (IOException e) {
             GlobalLogger.logError("Error handling client", e);
         } finally {
