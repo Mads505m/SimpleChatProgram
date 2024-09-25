@@ -11,6 +11,8 @@ import java.net.UnknownHostException;
 public class ChatClient {
 
     private final ReadServerConfigFile readServerConfigFile;
+    private ClientCommunicationHandler communicationHandler;
+
     public ChatClient(ReadServerConfigFile readServerConfigFile) {
         this.readServerConfigFile = readServerConfigFile;
     }
@@ -23,7 +25,7 @@ public class ChatClient {
         int serverPort = readServerConfigFile.getServerPort();
 
         try {
-            ClientCommunicationHandler communicationHandler = new ClientCommunicationHandler(serverHost, serverPort);
+            communicationHandler = new ClientCommunicationHandler(serverHost, serverPort);
             GlobalLogger.logInfo("Connected to the server at " + serverHost + " and Port: " + serverPort);
             communicationHandler.sendMessageToServer();
         } catch (UnknownHostException e) {
@@ -35,6 +37,12 @@ public class ChatClient {
         }
     }
 
+    public void close(){
+        if (communicationHandler != null) {
+            communicationHandler.close();
+        }
+    }
+
     /**
      * Starts the chat client.
      */
@@ -42,6 +50,10 @@ public class ChatClient {
         ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
         ChatClient chatClient = new ChatClient(readServerConfigFile);
 
-        chatClient.startChatClient();
+        try{
+            chatClient.startChatClient();
+        } finally{
+            chatClient.close();
+        }
     }
 }
