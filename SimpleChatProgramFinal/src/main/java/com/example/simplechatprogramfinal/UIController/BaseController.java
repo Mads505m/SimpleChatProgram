@@ -1,9 +1,9 @@
 package com.example.simplechatprogramfinal.UIController;
 
 import com.example.simplechatprogramfinal.Entity.Users;
-import com.example.simplechatprogramfinal.Usecase.ChatClient;
+import com.example.simplechatprogramfinal.Usecase.Client.ChatClient;
 import com.example.simplechatprogramfinal.DBController.user.UserRepository;
-import com.example.simplechatprogramfinal.Usecase.ReadServerConfigFile;
+import com.example.simplechatprogramfinal.Usecase.Server.ReadServerConfigFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

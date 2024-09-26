@@ -2,6 +2,7 @@ package com.example.simplechatprogramfinal.Usecase;
 
 import com.example.simplechatprogramfinal.DBController.user.UserRepository;
 import com.example.simplechatprogramfinal.Entity.Users;
+import com.example.simplechatprogramfinal.Usecase.Database.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

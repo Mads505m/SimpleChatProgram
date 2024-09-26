@@ -2,15 +2,13 @@ package com.example.simplechatprogramfinal;
 
 import com.example.simplechatprogramfinal.DBController.user.UserRepository;
 import com.example.simplechatprogramfinal.Entity.Users;
-import com.example.simplechatprogramfinal.Usecase.ChatClient;
-import com.example.simplechatprogramfinal.Usecase.ChatServer;
-import com.example.simplechatprogramfinal.Usecase.ReadServerConfigFile;
+import com.example.simplechatprogramfinal.Usecase.Server.ChatServer;
+import com.example.simplechatprogramfinal.Usecase.Server.ReadServerConfigFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.thymeleaf.standard.processor.StandardHrefTagProcessor;
 
 @SpringBootApplication
 public class SimpleChatProgramFinalApplication {
