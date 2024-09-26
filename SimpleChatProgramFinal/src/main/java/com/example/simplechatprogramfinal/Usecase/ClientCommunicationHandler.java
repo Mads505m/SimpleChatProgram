@@ -3,11 +3,9 @@ package com.example.simplechatprogramfinal.Usecase;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class ClientCommunicationHandler implements ClientCommunicationHandlerInterface {
 
-    private static final Logger logger = Logger.getLogger(ClientCommunicationHandler.class.getName());
     private Socket socket;
     private PrintWriter printWriter;
     private BufferedReader in;
@@ -24,7 +22,7 @@ public class ClientCommunicationHandler implements ClientCommunicationHandlerInt
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         this.clientId = in.readLine();
-        logger.info("Connected as " + clientId);
+        GlobalLogger.logInfo("Connected as " + clientId);
 
 
         new Thread(this::readMessagesFromServer).start();
@@ -42,7 +40,7 @@ public class ClientCommunicationHandler implements ClientCommunicationHandlerInt
                 System.out.println(serverResponse);
             }
         } catch (IOException e) {
-            logger.severe("Failed to read from server: " + e.getMessage());
+            GlobalLogger.logError("Failed to read from server", e);
         }
     }
 
@@ -58,7 +56,7 @@ public class ClientCommunicationHandler implements ClientCommunicationHandlerInt
                 sendMessageContent(message);
             }
         } catch (Exception e) {
-            logger.severe("Failed to send message: " + e.getMessage());
+            GlobalLogger.logError("Failed to send message: ", e);
         }
     }
 
@@ -70,5 +68,20 @@ public class ClientCommunicationHandler implements ClientCommunicationHandlerInt
     public void sendMessageContent(String messageContent) {
         printWriter.println(messageContent);
         printWriter.flush();
+    }
+
+    public void close(){
+        try{
+            if(printWriter != null){
+                printWriter.close();
+            } if(in != null){
+                in.close();
+            } if (socket != null && !socket.isClosed()){
+                socket.close();
+            }
+            GlobalLogger.logInfo("Connection closed for client" + clientId);
+        } catch (IOException e) {
+            GlobalLogger.logError("Failed to close connection", e);
+        }
     }
 }

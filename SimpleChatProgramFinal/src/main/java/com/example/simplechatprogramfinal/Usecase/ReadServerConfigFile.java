@@ -4,17 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * Reads server configuration from a properties file.
  */
 public class ReadServerConfigFile {
 
-    private static final Logger logger = Logger.getLogger(ChatServer.class.getName());
     private Properties properties;
 
     /**
@@ -33,7 +29,7 @@ public class ReadServerConfigFile {
         try (InputStream input = new FileInputStream(file)) {
             properties.load(input);
         } catch (IOException ex) {
-          logger.info(("Error loading properties file: " + ex.getMessage()));
+            GlobalLogger.logInfo(("Error loading properties file: " + ex.getMessage()));
         }
     }
     /**

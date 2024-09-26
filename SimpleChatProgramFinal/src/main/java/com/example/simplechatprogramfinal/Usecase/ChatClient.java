@@ -3,7 +3,6 @@ package com.example.simplechatprogramfinal.Usecase;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.util.logging.Logger;
 
 /**
  * ChatClient is responsible for establishing a connection to the chat server
@@ -11,9 +10,9 @@ import java.util.logging.Logger;
  */
 public class ChatClient {
 
-    private static final Logger logger = Logger.getLogger(ChatClient.class.getName());
-
     private final ReadServerConfigFile readServerConfigFile;
+    private ClientCommunicationHandler communicationHandler;
+
     public ChatClient(ReadServerConfigFile readServerConfigFile) {
         this.readServerConfigFile = readServerConfigFile;
     }
@@ -26,15 +25,21 @@ public class ChatClient {
         int serverPort = readServerConfigFile.getServerPort();
 
         try {
-            ClientCommunicationHandler communicationHandler = new ClientCommunicationHandler(serverHost, serverPort);
-            logger.info("Connected to the server at " + serverHost + " and Port: " + serverPort);
+            communicationHandler = new ClientCommunicationHandler(serverHost, serverPort);
+            GlobalLogger.logInfo("Connected to the server at " + serverHost + " and Port: " + serverPort);
             communicationHandler.sendMessageToServer();
         } catch (UnknownHostException e) {
-            logger.severe("Unknown host: " + serverHost);
+            GlobalLogger.logError("Unknown host: " + serverHost, e);
         } catch (ConnectException e) {
-            logger.severe("Connection to the server failed: " + e.getMessage());
+            GlobalLogger.logError("Connection to the server failed", e);
         } catch (IOException e) {
-            logger.severe("I/O error occurred when connecting to the server: " + e.getMessage());
+            GlobalLogger.logError("I/O error occurred when connecting to the server", e);
+        }
+    }
+
+    public void close(){
+        if (communicationHandler != null) {
+            communicationHandler.close();
         }
     }
 
@@ -45,6 +50,10 @@ public class ChatClient {
         ReadServerConfigFile readServerConfigFile = new ReadServerConfigFile();
         ChatClient chatClient = new ChatClient(readServerConfigFile);
 
-        chatClient.startChatClient();
+        try{
+            chatClient.startChatClient();
+        } finally{
+            chatClient.close();
+        }
     }
 }

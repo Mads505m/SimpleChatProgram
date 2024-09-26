@@ -4,15 +4,12 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
-
 
 /**
  * ClientManager manages the connected clients and their PrintWriters.
  */
 
 public class ClientManager implements ClientManagerInterface {
-    private static final Logger logger = Logger.getLogger(ClientManager.class.getName());
     private final Map<String, PrintWriter> clients;
 
     /**
@@ -38,7 +35,7 @@ public class ClientManager implements ClientManagerInterface {
     @Override
     public void registerClient(String clientId, PrintWriter printWriter) {
         clients.put(clientId, printWriter);
-        logger.info(clientId + " has been registered");
+        GlobalLogger.logInfo(clientId + " has been registered");
     }
 
 
@@ -48,6 +45,6 @@ public class ClientManager implements ClientManagerInterface {
     @Override
     public void unregisterClient(String clientId) {
         clients.remove(clientId);
-        logger.info(clientId + " has been unregistered");
+        GlobalLogger.logInfo(clientId + " has been unregistered");
     }
 }
